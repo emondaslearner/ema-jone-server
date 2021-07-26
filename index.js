@@ -16,7 +16,9 @@ app.use(cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-
+app.get('/',(req,res) => {
+  res.send('hello heroku');
+})
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const collection = client.db(process.env.DB_NAMES).collection(process.env.DB_COLLECTION);
