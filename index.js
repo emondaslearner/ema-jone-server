@@ -29,35 +29,12 @@ client.connect(err => {
   app.post('/addOrder',(req,res) => {
     orderCollection.insertOne(req.body)
     .then(result => {
-      let mailTransporter = nodemailer.createTransport({
-          host: 'smtp.gmail.com',
-          port:587,
-          secure:false,
-          requireTLS:true,
-          auth: {
-              user: 'emonwordpress.1000@gmail.com',
-              pass: 'emondas12345'
-          }
-      });
-        
-      let mailDetails = {
-          from: 'emonwordpress.1000@gmail.com',
-          to: req.body.address.email,
-          subject: 'ema-jone order',
-          html: '<h5>product order has been successfully placed on ema-jone</h5>'
-      };
-        
-      mailTransporter.sendMail(mailDetails, function(err, data) {
-          if(err) {
-              console.log(err);
-          } else {
-              console.log('Email sent successfully');
-          }
-      });
+      res.send(req.body);
     })
   })
   app.get('/data',(req,res) => {
-    collection.find({})
+    const search = req.query.search;
+    collection.find({name:{$regex:search}})
     .toArray((err,documents) => {
       res.send(documents)
     })
