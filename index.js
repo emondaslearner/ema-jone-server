@@ -33,6 +33,13 @@ client.connect(err => {
     })
   })
   app.get('/data',(req,res) => {
+    collection.find()
+    .toArray((err,documents) => {
+      res.send(documents)
+    })
+  })
+  
+  app.get('/searchData',(req,res) => {
     const search = req.query.search;
     collection.find({name:{$regex:search}})
     .toArray((err,documents) => {
